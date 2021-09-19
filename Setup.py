@@ -108,7 +108,7 @@ for key,_file in file_list:
                 'depends': _deps}
             print('%s.pyx' % (_filename))
             sources['%s.pyx' % _filename] = merge(base_flags, osx_flags)
-            sources['%s.pyx' % _filename]['module_name'] = _classname
+            sources['%s.pyx' % _filename]['module_name'] = _filename
 
 ext_modules.extend(get_extensions_from_sources(sources))
 
