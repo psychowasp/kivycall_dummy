@@ -61,7 +61,7 @@ class CythonExtension(Extension):
 def get_extensions_from_sources(sources):
     _ext_modules = []
     for pyx, flags in sources.items():
-        module_name = flags.pop('module_name')
+        module_name = "kivytest"
         print(f"current module_name {module_name}")
         pyx = expand(src_path,pyx)
         depends = [expand(src_path, x) for x in flags.pop('depends', [])]
@@ -78,40 +78,16 @@ def get_extensions_from_sources(sources):
     return _ext_modules
 
 sources = {}
-ext_modules = []
 src_path = build_path = dirname(__file__)
 base_flags = determine_base_flags()
+osx_flags = {
+    'extra_link_args': [],
+    'extra_compile_args': ['-ObjC'],
+    'depends': ['_kivytest.m','_kivytest.h','nokeDevice.m','objc_test.h','objc_test.m']}
+sources['kivytest.pyx'] = merge(base_flags, osx_flags)
 
-modules_path = dirname(os.path.abspath(__file__))
-cfg = open_config(modules_path)
-file_list = cfg.items()
-for key,_file in file_list: 
-    if key != "DEFAULT":
-        print("_deps",_file['depends'])
-        _deps = _file['depends']
+ext_modules = get_extensions_from_sources(sources)
 
-        _t = _file['type']
-        _classname = _file['classname']
-        _filename = "kivytest"
-
-        if _t != "custom":
-            osx_flags = {
-                'extra_link_args': [],
-                'extra_compile_args': ['-ObjC','-w'],
-                # 'depends': ['%s.m' % _filename,'%s.h' % _filename]}
-                'depends': ['_%s.m' % _filename,'_%s.h' % _filename]}
-            sources['%s.pyx' % _filename] = merge(base_flags, osx_flags)
-            sources['%s.pyx' % _filename]['module_name'] = '%s' % _filename
-        else:
-            osx_flags = {
-                'extra_link_args': [],
-                'extra_compile_args': ['-ObjC','-w'],
-                'depends': _deps}
-            print('%s.pyx' % (_filename))
-            sources['%s.pyx' % _filename] = merge(base_flags, osx_flags)
-            sources['%s.pyx' % _filename]['module_name'] = _filename
-
-ext_modules.extend(get_extensions_from_sources(sources))
 
 setup(
       name='PythonSwiftLink',
