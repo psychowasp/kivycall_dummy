@@ -91,7 +91,7 @@ for key,_file in file_list:
 
         _t = _file['type']
         _classname = _file['classname']
-        _filename = _file['dirname']
+        _filename = kivytest
 
         if _t != "custom":
             osx_flags = {
