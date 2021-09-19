@@ -62,6 +62,7 @@ def get_extensions_from_sources(sources):
     _ext_modules = []
     for pyx, flags in sources.items():
         module_name = flags.pop('module_name')
+        print(f"current module_name {module_name}")
         pyx = expand(src_path,pyx)
         depends = [expand(src_path, x) for x in flags.pop('depends', [])]
         f_depends = [x for x in depends if x.rsplit('.', 1)[-1] in ('m')]
