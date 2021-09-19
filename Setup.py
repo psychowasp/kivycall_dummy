@@ -83,7 +83,7 @@ base_flags = determine_base_flags()
 osx_flags = {
     'extra_link_args': [],
     'extra_compile_args': ['-ObjC'],
-    'depends': ['_kivytest.m','_kivytest.h','nokeDevice.m','objc_test.h','objc_test.m']}
+    'depends': ['_kivytest.m','_kivytest.h','objc_test.h','objc_test.m']}
 sources['kivytest.pyx'] = merge(base_flags, osx_flags)
 
 ext_modules = get_extensions_from_sources(sources)
