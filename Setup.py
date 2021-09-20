@@ -81,7 +81,7 @@ sources = {}
 src_path = build_path = dirname(__file__)
 base_flags = determine_base_flags()
 osx_flags = {
-    #'extra_link_args': ['KivyTesr.o','_kivytest_objc.o'],
+    'extra_link_args': ['KivyTesr.o','_kivytest_objc.o'],
     'extra_compile_args': ['-ObjC'],
     'depends': ['_kivytest.m','_kivytest.h'],
     }
